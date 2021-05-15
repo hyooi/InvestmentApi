@@ -13,13 +13,14 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 @Entity
 @Getter
-@IdClass(InvestingStatus.Key.class)
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@IdClass(InvestingStatus.Key.class)
 public class InvestingStatus {
 
   @Id
@@ -36,16 +37,17 @@ public class InvestingStatus {
   private InvestingProduct investProduct;
 
   @AllArgsConstructor
+  @NoArgsConstructor
   @Getter
   public static class Key implements Serializable {
 
     @Id
     @NonNull
-    private final Long productId;
+    private Long productId;
 
     @Id
     @NonNull
-    private final String userId;
+    private String userId;
   }
 
 }

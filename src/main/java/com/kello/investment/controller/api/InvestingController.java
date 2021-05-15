@@ -7,15 +7,14 @@ import com.kello.investment.service.InvestingService;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
 @RestController
-@RequestMapping
+@RequestMapping(value = "/api")
 @Slf4j
 public class InvestingController {
 
@@ -29,19 +28,19 @@ public class InvestingController {
   @GetMapping("/products")
   public List<InvestingProductDto> getAllInvestmentProducts() {
     log.info("getAllInvestmentProducts");
-    // 상품 모집기간 내의 상품만 응답
 
-    return null;
+    return service.getAllInvestmentProducts();
   }
 
-  @PostMapping("/invest")
-  public CommonResponse invest(@RequestHeader(USER_ID_HEADER) String userId, long productId,
-      long amount) {
+  @PostMapping("/invest/{productId}/{amount}")
+  public CommonResponse invest(@RequestHeader(USER_ID_HEADER) String userId,
+      @PathVariable("productId") long productId,
+      @PathVariable("amount") long amount) {
     log.info("invest request: [userId: {}, productId: {}, amount: {}]", userId, productId, amount);
     return service.invest(userId, productId, amount);
   }
 
-  @GetMapping("/myproduct")
+  @GetMapping("/product")
   public List<MyInvestingProductDto> getMyInvestmentProduct(
       @RequestHeader(USER_ID_HEADER) String userId) {
     log.info("getMyInvestmentProduct: [userId: {}]", userId);

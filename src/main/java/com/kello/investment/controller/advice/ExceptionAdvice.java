@@ -16,7 +16,7 @@ public class ExceptionAdvice {
 
     return CommonResponse.builder()
         .hasError(true)
-        .errCd(ErrorCodeEnum.E99999.getErrCd())
+        .code(ErrorCodeEnum.E99999.getErrCd())
         .errMsg(e.toString())
         .build();
   }
