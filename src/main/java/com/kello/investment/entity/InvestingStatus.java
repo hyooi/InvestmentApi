@@ -17,8 +17,9 @@ import lombok.NonNull;
 @Entity
 @Getter
 @IdClass(InvestingStatus.Key.class)
-@NoArgsConstructor
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class InvestingStatus {
 
   @Id

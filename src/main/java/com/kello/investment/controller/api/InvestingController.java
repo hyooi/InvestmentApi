@@ -4,6 +4,7 @@ import com.kello.investment.dto.CommonResponse;
 import com.kello.investment.dto.InvestingProductDto;
 import com.kello.investment.dto.MyInvestingProductDto;
 import com.kello.investment.service.InvestingService;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,7 +27,7 @@ public class InvestingController {
   }
 
   @GetMapping("/products")
-  public Flux<InvestingProductDto> getAllInvestmentProducts() {
+  public List<InvestingProductDto> getAllInvestmentProducts() {
     log.info("getAllInvestmentProducts");
     // 상품 모집기간 내의 상품만 응답
 
@@ -34,14 +35,14 @@ public class InvestingController {
   }
 
   @PostMapping("/invest")
-  public Mono<CommonResponse> invest(@RequestHeader(USER_ID_HEADER) String userId, long productId,
+  public CommonResponse invest(@RequestHeader(USER_ID_HEADER) String userId, long productId,
       long amount) {
     log.info("invest request: [userId: {}, productId: {}, amount: {}]", userId, productId, amount);
     return service.invest(userId, productId, amount);
   }
 
   @GetMapping("/myproduct")
-  public Flux<MyInvestingProductDto> getMyInvestmentProduct(
+  public List<MyInvestingProductDto> getMyInvestmentProduct(
       @RequestHeader(USER_ID_HEADER) String userId) {
     log.info("getMyInvestmentProduct: [userId: {}]", userId);
 

@@ -25,12 +25,12 @@ public class InvestingService {
   }
 
   @Transactional
-  public Mono<CommonResponse> invest(String userId, long productId, long amount) {
+  public CommonResponse invest(String userId, long productId, long amount) {
     if (isExceedAmount(productId, amount)) {
-      return Mono.just(CommonResponse.builder()
+      return CommonResponse.builder()
           .hasError(true)
           .errCd(ErrorCodeEnum.SOLD_OUT.getErrCd())
-          .build());
+          .build();
     }
 
     statusRepository.save(InvestingStatus.builder()
@@ -40,9 +40,9 @@ public class InvestingService {
         .investDate(LocalDateTime.now(ZoneId.of("KST")))
         .build());
 
-    return Mono.just(CommonResponse.builder()
+    return CommonResponse.builder()
         .hasError(false)
-        .build());
+        .build();
   }
 
   private boolean isExceedAmount(long productId, long amount) {
