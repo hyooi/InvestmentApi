@@ -70,7 +70,7 @@ public class InvestingService {
   }
 
   private boolean isExceedAmount(long productId, long amount) {
-    return productRepository.isPossibleInvestment(productId, amount).orElse(false);
+    return productRepository.isExceedAmount(productId, amount);
   }
 
 
