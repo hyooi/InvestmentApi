@@ -14,15 +14,15 @@ public interface InvestingProductRepository extends CrudRepository<InvestingProd
 
   @Query("SELECT new com.kello.investment.dto.InvestingProductDto(A.productId, A.title, "
       + "A.totalInvestingAmount, A.startedAt, A.finishedAt,"
-      + "COALESCE(SUM(B.investAmount), 0) AS presentInvestingAmount, COUNT(B.userId) AS userCnt) "
+      + "COALESCE(SUM(B.investAmount), 0) AS presentInvestingAmount, COUNT(B.userId) AS investorCnt) "
       + "FROM InvestingProduct A LEFT JOIN A.status B "
       + "WHERE A.startedAt < ?1 AND A.finishedAt > ?1 "
       + "GROUP BY A.productId")
   List<InvestingProductDto> findAllProduct(LocalDateTime now);
 
-  @Query("SELECT A.totalInvestingAmount >= SUM(B.investAmount) "
+  @Query("SELECT A.totalInvestingAmount > SUM(B.investAmount) + ?2 "
       + "FROM InvestingProduct A LEFT JOIN A.status B "
       + "WHERE A.productId=?1 "
       + "GROUP BY A.productId")
-  Optional<Boolean> isPossibleInvestment(long productId);
+  Optional<Boolean> isPossibleInvestment(long productId, long amount);
 }

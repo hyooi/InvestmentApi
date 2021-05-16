@@ -11,7 +11,7 @@ public interface InvestingStatusRepository
     extends CrudRepository<InvestingStatus, Key> {
 
   @Query("SELECT new com.kello.investment.dto.MyInvestingProductDto(A.productId, B.title, "
-      + "B.totalInvestingAmount, A.investAmount, A.investDate) "
+      + "B.totalInvestingAmount, A.investAmount AS myInvestAmount, A.investDate) "
       + "FROM InvestingStatus A LEFT JOIN A.investProduct B "
       + "WHERE A.userId = ?1")
   List<MyInvestingProductDto> findAllByUserId(String userId);

@@ -4,6 +4,7 @@ import com.kello.investment.dto.CommonResponse;
 import com.kello.investment.dto.InvestingProductDto;
 import com.kello.investment.dto.MyInvestingProductDto;
 import com.kello.investment.entity.InvestingStatus;
+import com.kello.investment.entity.InvestingStatus.Key;
 import com.kello.investment.enums.ErrorCodeEnum;
 import com.kello.investment.enums.RecruitingStatusEnum;
 import com.kello.investment.repository.InvestingProductRepository;
@@ -13,6 +14,7 @@ import java.time.ZoneId;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.transaction.Transactional;
+import lombok.val;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -50,6 +52,11 @@ public class InvestingService {
           .build();
     }
 
+    val investingStatus = statusRepository.findById(new Key(productId, userId));
+    if (investingStatus.isPresent()) {
+      amount += investingStatus.get().getInvestAmount();
+    }
+
     statusRepository.save(InvestingStatus.builder()
         .productId(productId)
         .userId(userId)
@@ -63,7 +70,7 @@ public class InvestingService {
   }
 
   private boolean isExceedAmount(long productId, long amount) {
-    return productRepository.isPossibleInvestment(productId).orElse(false);
+    return productRepository.isPossibleInvestment(productId, amount).orElse(false);
   }
 
 

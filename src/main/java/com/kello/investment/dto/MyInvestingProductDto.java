@@ -13,6 +13,6 @@ public class MyInvestingProductDto {
   private final Long productId;
   private final String title;
   private final Long totalInvestingAmount;
-  private final Long investAmount;
+  private final Long myInvestAmount;
   private final LocalDateTime investDate;
 }
