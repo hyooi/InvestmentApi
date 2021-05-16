@@ -17,6 +17,9 @@ spring:
     console:
       enabled: true
       path: /h2
+  application:
+    name: InvestmentApi
+    time-zone: Asia/Seoul
 logging:
   level:
     root: INFO
