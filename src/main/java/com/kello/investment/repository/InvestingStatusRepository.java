@@ -14,5 +14,5 @@ public interface InvestingStatusRepository
       + "B.totalInvestingAmount, A.investAmount AS myInvestAmount, A.investDate) "
       + "FROM InvestingStatus A LEFT JOIN A.investProduct B "
       + "WHERE A.userId = ?1")
-  List<MyInvestingProductDto> findAllByUserId(String userId);
+  List<MyInvestingProductDto> findAllByUserId(long userId);
 }

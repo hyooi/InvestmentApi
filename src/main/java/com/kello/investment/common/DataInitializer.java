@@ -32,7 +32,7 @@ public class DataInitializer implements ApplicationRunner {
             .title("부동산 포트폴리오")
             .totalInvestingAmount(5000000L)
             .startedAt(LocalDateTime.of(2021, Month.MARCH, 2, 0, 0))
-            .finishedAt(LocalDateTime.of(2021, Month.MAY, 20, 0, 0))
+            .finishedAt(LocalDateTime.of(2021, Month.DECEMBER, 31, 0, 0))
             .build());
 
     repository.saveAll(initialProducts);

@@ -23,10 +23,10 @@ public class InvestingProduct {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
-  private Long productId;
+  private long productId;
 
   private String title;
-  private Long totalInvestingAmount;
+  private long totalInvestingAmount;
   private LocalDateTime startedAt;
   private LocalDateTime finishedAt;
 

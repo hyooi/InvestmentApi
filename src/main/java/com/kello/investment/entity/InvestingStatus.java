@@ -13,7 +13,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 
 @Entity
 @Getter
@@ -24,12 +23,12 @@ import lombok.RequiredArgsConstructor;
 public class InvestingStatus {
 
   @Id
-  private Long productId;
+  private long productId;
 
   @Id
-  private String userId;
+  private long userId;
 
-  private Long investAmount;
+  private long investAmount;
   private LocalDateTime investDate;
 
   @ManyToOne(fetch = FetchType.LAZY)
@@ -43,11 +42,11 @@ public class InvestingStatus {
 
     @Id
     @NonNull
-    private Long productId;
+    private long productId;
 
     @Id
     @NonNull
-    private String userId;
+    private long userId;
   }
 
 }

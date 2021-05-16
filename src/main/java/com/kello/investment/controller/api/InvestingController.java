@@ -3,6 +3,7 @@ package com.kello.investment.controller.api;
 import com.kello.investment.dto.CommonResponse;
 import com.kello.investment.dto.InvestingProductDto;
 import com.kello.investment.dto.MyInvestingProductDto;
+import com.kello.investment.entity.InvestingStatus;
 import com.kello.investment.service.InvestingService;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +29,6 @@ public class InvestingController {
   }
 
   @GetMapping("/products")
-  @ResponseStatus(HttpStatus.CREATED)
   public CommonResponse<List<InvestingProductDto>> getAllInvestmentProducts() {
     log.info("getAllInvestmentProducts");
 
@@ -36,7 +36,8 @@ public class InvestingController {
   }
 
   @PostMapping("/invest/{productId}/{amount}")
-  public CommonResponse<Object> invest(@RequestHeader(USER_ID_HEADER) String userId,
+  @ResponseStatus(HttpStatus.CREATED)
+  public CommonResponse<InvestingStatus> invest(@RequestHeader(USER_ID_HEADER) long userId,
       @PathVariable("productId") long productId,
       @PathVariable("amount") long amount) {
     log.info("invest request: [userId: {}, productId: {}, amount: {}]", userId, productId, amount);
@@ -45,7 +46,7 @@ public class InvestingController {
 
   @GetMapping("/product")
   public CommonResponse<List<MyInvestingProductDto>> getMyInvestmentProduct(
-      @RequestHeader(USER_ID_HEADER) String userId) {
+      @RequestHeader(USER_ID_HEADER) long userId) {
     log.info("getMyInvestmentProduct: [userId: {}]", userId);
 
     return service.getMyInvestmentProduct(userId);

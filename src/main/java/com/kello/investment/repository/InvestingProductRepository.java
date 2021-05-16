@@ -4,6 +4,7 @@ import com.kello.investment.dto.InvestingProductDto;
 import com.kello.investment.entity.InvestingProduct;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -19,9 +20,14 @@ public interface InvestingProductRepository extends CrudRepository<InvestingProd
       + "GROUP BY A.productId")
   List<InvestingProductDto> findAllProduct(LocalDateTime now);
 
+  @Query("SELECT A.startedAt < ?2 AS validStartTime, A.finishedAt > ?2 AS validEndTime "
+      + "FROM InvestingProduct A WHERE A.productId = ?1")
+  Map<String, Boolean> isInvestingPeriod(long productId, LocalDateTime timeZone);
+
   @Query("SELECT A.totalInvestingAmount < COALESCE(SUM(B.investAmount), 0) + ?2 "
       + "FROM InvestingProduct A LEFT JOIN A.status B "
       + "WHERE A.productId=?1 "
       + "GROUP BY A.productId")
   boolean isExceedAmount(long productId, long amount);
+
 }

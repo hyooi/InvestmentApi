@@ -6,10 +6,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Getter
 public enum ResultCodeEnum {
-  NORMAL("000000", "NORMAL"),
-  SOLD_OUT("E00001", "SOLD OUT"),
-  E99999("E99999", "Unknown error");
+  NORMAL("N00000");
 
   private final String resultCode;
-  private final String resultMessage;
 }
