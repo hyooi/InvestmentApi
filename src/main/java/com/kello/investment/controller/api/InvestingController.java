@@ -45,6 +45,6 @@ public class InvestingController {
       @RequestHeader(USER_ID_HEADER) String userId) {
     log.info("getMyInvestmentProduct: [userId: {}]", userId);
 
-    return null;
+    return service.getMyInvestmentProduct(userId);
   }
 }

@@ -1,19 +1,28 @@
 package com.kello.investment.repository;
 
+import com.kello.investment.dto.InvestingProductDto;
 import com.kello.investment.entity.InvestingProduct;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public interface InvestingProductRepository extends CrudRepository<InvestingProduct, Long> {
 
-//  @Query("SELECT P.totalInvestingAmount-(SELECT COLLAPSE(SUM(i.investAmount), 0) "
-//      + "FROM InvestingStatus i WHERE i.productId = ?1) FROM InvestingProduct P "
-//      + "WHERE P.productId = ?1")
-//  Long getAvailableAmountByProductId(long productId);
+  @Query("SELECT new com.kello.investment.dto.InvestingProductDto(A.productId, A.title, "
+      + "A.totalInvestingAmount, A.startedAt, A.finishedAt,"
+      + "COALESCE(SUM(B.investAmount), 0) AS presentInvestingAmount, COUNT(B.userId) AS userCnt) "
+      + "FROM InvestingProduct A LEFT JOIN A.status B "
+      + "WHERE A.startedAt < ?1 AND A.finishedAt > ?1 "
+      + "GROUP BY A.productId")
+  List<InvestingProductDto> findAllProduct(LocalDateTime now);
 
-  List<InvestingProduct> findAllByStartedAtLessThanAndAndFinishedAtGreaterThan(LocalDateTime now1,
-      LocalDateTime now2);
+  @Query("SELECT A.totalInvestingAmount >= SUM(B.investAmount) "
+      + "FROM InvestingProduct A LEFT JOIN A.status B "
+      + "WHERE A.productId=?1 "
+      + "GROUP BY A.productId")
+  Optional<Boolean> isPossibleInvestment(long productId);
 }
