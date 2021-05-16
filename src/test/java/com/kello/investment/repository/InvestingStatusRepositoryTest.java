@@ -30,7 +30,7 @@ class InvestingStatusRepositoryTest {
   void test_save() {
     repository.save(InvestingStatus.builder()
         .productId(1L)
-        .userId("user01")
+//        .userId("user01")
         .investAmount(10000L)
         .build());
 
