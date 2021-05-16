@@ -1,18 +1,20 @@
 package com.kello.investment.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CommonResponse {
+@JsonInclude(Include.NON_NULL)
+public class CommonResponse<T> {
 
-  private boolean hasError;
-  private String code;
-  private String errMsg;
+  private String resultCode;
+  private String resultMessage;
+  private T result;
 }

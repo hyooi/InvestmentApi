@@ -1,7 +1,7 @@
 package com.kello.investment.controller.advice;
 
 import com.kello.investment.dto.CommonResponse;
-import com.kello.investment.enums.ErrorCodeEnum;
+import com.kello.investment.enums.ResultCodeEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -15,9 +15,8 @@ public class ExceptionAdvice {
     log.error("Exception occurred.", e);
 
     return CommonResponse.builder()
-        .hasError(true)
-        .code(ErrorCodeEnum.E99999.getErrCd())
-        .errMsg(e.toString())
+        .resultCode(ResultCodeEnum.E99999.getResultCode())
+        .resultMessage(e.toString())
         .build();
   }
 }

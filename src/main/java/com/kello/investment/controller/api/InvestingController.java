@@ -1,10 +1,7 @@
 package com.kello.investment.controller.api;
 
 import com.kello.investment.dto.CommonResponse;
-import com.kello.investment.dto.InvestingProductDto;
-import com.kello.investment.dto.MyInvestingProductDto;
 import com.kello.investment.service.InvestingService;
-import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,7 +23,7 @@ public class InvestingController {
   }
 
   @GetMapping("/products")
-  public List<InvestingProductDto> getAllInvestmentProducts() {
+  public CommonResponse getAllInvestmentProducts() {
     log.info("getAllInvestmentProducts");
 
     return service.getAllInvestmentProducts();
@@ -41,7 +38,7 @@ public class InvestingController {
   }
 
   @GetMapping("/product")
-  public List<MyInvestingProductDto> getMyInvestmentProduct(
+  public CommonResponse getMyInvestmentProduct(
       @RequestHeader(USER_ID_HEADER) String userId) {
     log.info("getMyInvestmentProduct: [userId: {}]", userId);
 

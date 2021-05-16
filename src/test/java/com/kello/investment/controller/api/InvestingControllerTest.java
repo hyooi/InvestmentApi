@@ -9,6 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.kello.investment.dto.CommonResponse;
 import com.kello.investment.dto.InvestingProductDto;
 import com.kello.investment.service.InvestingService;
 import java.time.LocalDateTime;
@@ -40,7 +41,10 @@ class InvestingControllerTest {
   @SneakyThrows
   void test_getAllInvestmentProducts() {
     given(service.getAllInvestmentProducts())
-        .willReturn(Arrays.asList(getInvestingProductDto(1), getInvestingProductDto(2)));
+        .willReturn(CommonResponse.builder()
+            .result(Arrays.asList(getInvestingProductDto(1),
+                getInvestingProductDto(2)))
+            .build());
 
     val actions = mockMvc.perform(get("/api/products"))
         .andDo(print());
