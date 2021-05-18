@@ -20,7 +20,6 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import lombok.SneakyThrows;
-import lombok.val;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -45,10 +44,10 @@ class InvestingControllerTest {
   @DisplayName("전체 투자상품 조회API 테스트")
   @SneakyThrows
   void test_getAllInvestmentProducts() {
-    val productId1 = randomLongId();
-    val productId2 = randomLongId();
+    var productId1 = randomLongId();
+    var productId2 = randomLongId();
 
-    val resultList = new CommonResponse<List<InvestingProductDto>>()
+    var resultList = new CommonResponse<List<InvestingProductDto>>()
         .of(ResultCodeEnum.NORMAL, "Asia/Seoul")
         .result(Arrays.asList(getInvestingProductDto(productId1),
             getInvestingProductDto(productId2)))
@@ -79,11 +78,11 @@ class InvestingControllerTest {
   @DisplayName("투자하기API 테스트")
   @SneakyThrows
   void test_invest() {
-    val productId = randomLongId();
-    val userId = randomLongId();
-    val amount = 10000;
+    var productId = randomLongId();
+    var userId = randomLongId();
+    var amount = 10000;
 
-    val resultList = new CommonResponse<InvestingStatus>()
+    var resultList = new CommonResponse<InvestingStatus>()
         .of(ResultCodeEnum.NORMAL, "Asia/Seoul")
         .result(InvestingStatus.builder()
             .productId(productId)
@@ -112,11 +111,11 @@ class InvestingControllerTest {
   @DisplayName("나의투자상품조회API 테스트")
   @SneakyThrows
   void test_getMyInvestmentProduct() {
-    val productId1 = randomLongId();
-    val productId2 = randomLongId();
-    val userId = randomLongId();
+    var productId1 = randomLongId();
+    var productId2 = randomLongId();
+    var userId = randomLongId();
 
-    val resultList = new CommonResponse<List<MyInvestingProductDto>>()
+    var resultList = new CommonResponse<List<MyInvestingProductDto>>()
         .of(ResultCodeEnum.NORMAL, "Asia/Seoul")
         .result(Arrays.asList(getMyInvestingProductDto(productId1),
             getMyInvestingProductDto(productId2)))

@@ -16,13 +16,13 @@ public interface InvestingProductRepository extends CrudRepository<InvestingProd
       + "A.totalInvestingAmount, A.startedAt, A.finishedAt,"
       + "COALESCE(SUM(B.investAmount), 0) AS presentInvestingAmount, COUNT(B.userId) AS investorCnt) "
       + "FROM InvestingProduct A LEFT JOIN A.status B "
-      + "WHERE A.startedAt < ?1 AND A.finishedAt > ?1 "
+      + "WHERE A.startedAt <= ?1 AND A.finishedAt > ?1 "
       + "GROUP BY A.productId")
-  List<InvestingProductDto> findAllProduct(LocalDateTime now);
+  List<InvestingProductDto> findAllValidProduct(LocalDateTime now);
 
-  @Query("SELECT A.startedAt < ?2 AS validStartTime, A.finishedAt > ?2 AS validEndTime "
+  @Query("SELECT A.startedAt <= ?2 AS validStartTime, A.finishedAt > ?2 AS validEndTime "
       + "FROM InvestingProduct A WHERE A.productId = ?1")
-  Map<String, Boolean> isInvestingPeriod(long productId, LocalDateTime timeZone);
+  Map<String, Boolean> getComparedTimes(long productId, LocalDateTime timeZone);
 
   @Query("SELECT A.totalInvestingAmount < COALESCE(SUM(B.investAmount), 0) + ?2 "
       + "FROM InvestingProduct A LEFT JOIN A.status B "

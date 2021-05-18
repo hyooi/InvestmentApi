@@ -3,8 +3,6 @@ package com.kello.investment.entity;
 import java.time.LocalDateTime;
 import java.util.List;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import lombok.AllArgsConstructor;
@@ -22,7 +20,6 @@ import lombok.Setter;
 public class InvestingProduct {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
   private long productId;
 
   private String title;

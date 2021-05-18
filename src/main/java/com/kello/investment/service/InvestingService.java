@@ -16,7 +16,6 @@ import java.time.ZoneId;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.transaction.Transactional;
-import lombok.val;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -37,7 +36,7 @@ public class InvestingService {
   }
 
   public CommonResponse<List<InvestingProductDto>> getAllInvestmentProducts() {
-    val allProduct = productRepository.findAllProduct(getLocalDateTime())
+    var allProduct = productRepository.findAllValidProduct(getLocalDateTime())
         .stream()
         .peek(p -> {
           if (p.getPresentInvestingAmount() < p.getTotalInvestingAmount()) {
@@ -58,7 +57,7 @@ public class InvestingService {
   public CommonResponse<InvestingStatus> invest(long userId, long productId, long amount) {
     checkValidRequest(productId, amount);
 
-    val investingStatus = statusRepository.findById(new Key(productId, userId));
+    var investingStatus = statusRepository.findById(new Key(productId, userId));
     if (investingStatus.isPresent()) {
       amount += investingStatus.get().getInvestAmount();
     }
@@ -85,7 +84,7 @@ public class InvestingService {
   }
 
   private boolean isInvestingPeriod(long productId) {
-    return !productRepository.isInvestingPeriod(productId, getLocalDateTime())
+    return !productRepository.getComparedTimes(productId, getLocalDateTime())
         .containsValue(false);
   }
 
