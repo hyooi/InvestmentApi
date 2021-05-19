@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -54,7 +55,7 @@ public class InvestingService {
         .build();
   }
 
-  @Transactional
+  @Transactional(isolation = Isolation.READ_COMMITTED)
   public CommonResponse<InvestingStatusDto> invest(long userId, long productId, long amount) {
     checkValidRequest(productId, amount);
 
