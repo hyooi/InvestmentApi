@@ -26,6 +26,7 @@ public class InvestingProduct {
   private long totalInvestingAmount;
   private LocalDateTime startedAt;
   private LocalDateTime finishedAt;
+  private long presentInvestingAmount;
 
   @OneToMany(mappedBy = "investProduct")
   private List<InvestingStatus> status;

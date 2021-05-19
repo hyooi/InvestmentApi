@@ -56,9 +56,10 @@ public class InvestingService {
         .build();
   }
 
-  @Transactional(isolation = Isolation.READ_COMMITTED)
+  @Transactional(isolation = Isolation.REPEATABLE_READ)
   public CommonResponse<InvestingStatusDto> invest(long userId, long productId, long amount) {
     checkValidRequest(productId, amount);
+    updateProduct(productId, amount);
 
     var investingStatus = statusRepository.findById(new Key(productId, userId));
     if (investingStatus.isPresent()) {
@@ -95,6 +96,12 @@ public class InvestingService {
 
   private boolean isExceedAmount(long productId, long amount) {
     return productRepository.isExceedAmount(productId, amount);
+  }
+
+  private void updateProduct(long productId, long amount) {
+    var product = productRepository.findById(productId).get();
+    product.setPresentInvestingAmount(product.getPresentInvestingAmount() + amount);
+    productRepository.save(product);
   }
 
   private LocalDateTime getLocalDateTime() {

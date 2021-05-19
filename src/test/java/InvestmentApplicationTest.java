@@ -49,6 +49,7 @@ public class InvestmentApplicationTest {
         .startedAt(LocalDateTime.now().minusDays(1))
         .finishedAt(LocalDateTime.now().plusDays(1))
         .totalInvestingAmount(10000)
+        .presentInvestingAmount(100)
         .build());
 
     statusRepository.save(InvestingStatus.builder()

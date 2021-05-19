@@ -48,7 +48,7 @@ curl -X GET --location "http://localhost:6549/api/product" -H "X-USER-ID: 1"
 
 ![erd](erd.png)
 
-- 투자상품 테이블(INVESTING_PRODUCT): 투자 상품의 ID, 상품명, 총 투자 모집금액 및 투자 가능 기간 정보
+- 투자상품 테이블(INVESTING_PRODUCT): 투자 상품의 ID, 상품명, 총 투자 모집금액 및 투자 가능 기간 정보, 현재까지의 총 투자금액
 - 투자상태 테이블(INVESTING_STATUS): 각 투자상품에 투자한 유저ID와 투자금액, 투자일시 정보
 - 두 테이블은 일대다 관계
 

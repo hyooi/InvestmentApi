@@ -16,7 +16,6 @@ public class InvestingProductDto {
   private final long totalInvestingAmount;
   private final LocalDateTime startedAt;
   private final LocalDateTime finishedAt;
-
   private final long presentInvestingAmount;
   private final long investorCnt;
   private RecruitingStatusEnum recruitingStatus;

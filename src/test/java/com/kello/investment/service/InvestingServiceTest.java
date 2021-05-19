@@ -12,6 +12,7 @@ import com.kello.investment.dto.InvestingProductDto;
 import com.kello.investment.dto.MyInvestingProductDto;
 import com.kello.investment.dto.exception.InvalidPeriodException;
 import com.kello.investment.dto.exception.SoldOutException;
+import com.kello.investment.entity.InvestingProduct;
 import com.kello.investment.entity.InvestingStatus;
 import com.kello.investment.enums.RecruitingStatusEnum;
 import com.kello.investment.enums.ResultCodeEnum;
@@ -123,6 +124,8 @@ class InvestingServiceTest {
     given(productRepository.isExceedAmount(any(Long.class), any(Long.class)))
         .willReturn(false);
 
+    given(productRepository.findById(10L)).willReturn(Optional.of(new InvestingProduct()));
+
     given(statusRepository.save(any(InvestingStatus.class)))
         .willReturn(InvestingStatus.builder()
             .productId(10)
@@ -159,6 +162,8 @@ class InvestingServiceTest {
     given(productRepository.isExceedAmount(any(Long.class), any(Long.class)))
         .willReturn(false);
 
+    given(productRepository.findById(10L)).willReturn(Optional.of(new InvestingProduct()));
+    
     given(statusRepository.findById(any(InvestingStatus.Key.class)))
         .willReturn(Optional.of(InvestingStatus.builder()
             .investAmount(10000)

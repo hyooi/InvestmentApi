@@ -5,7 +5,6 @@ import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.api.Assertions.tuple;
 
 import com.kello.investment.entity.InvestingProduct;
-import com.kello.investment.entity.InvestingStatus;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.Arrays;
@@ -26,15 +25,13 @@ class InvestingProductRepositoryTest {
   @Autowired
   private InvestingProductRepository productRepository;
 
-  @Autowired
-  private InvestingStatusRepository statusRepository;
-
   @BeforeEach
   void init() {
     var product1 = InvestingProduct.builder()
         .productId(1)
         .title("title1")
         .totalInvestingAmount(10000)
+        .presentInvestingAmount(2000)
         .startedAt(LocalDateTime.of(2021, Month.MARCH, 1, 0, 0))
         .finishedAt(LocalDateTime.of(2021, Month.MARCH, 30, 0, 0))
         .build();
@@ -77,37 +74,16 @@ class InvestingProductRepositoryTest {
   }
 
   @Test
-  @DisplayName("현재 시간에서 유효한 투자상품 조회-투자자 없음")
-  void test_findAllValidProduct_noneStatus() {
+  @DisplayName("현재 시간에서 유효한 투자상품 조회")
+  void test_findAllValidProduct() {
     var result = productRepository
         .findAllValidProduct(LocalDateTime.of(2021, Month.MARCH, 1, 0, 0));
 
     assertThat(result)
         .hasSize(2)
-        .extracting("title", "totalInvestingAmount", "presentInvestingAmount",
-            "investorCnt")
-        .containsExactly(tuple("title1", 10000L, 0L, 0L),
-            tuple("title2", 20000L, 0L, 0L));
-  }
-
-  @Test
-  @DisplayName("현재 시간에서 유효한 투자상품 조회-투자자 있음")
-  void test_findAllValidProduct_withStatus() {
-    statusRepository.save(InvestingStatus.builder()
-        .productId(1)
-        .userId(10)
-        .investAmount(5000)
-        .build());
-
-    var result = productRepository
-        .findAllValidProduct(LocalDateTime.of(2021, Month.MARCH, 1, 0, 0));
-
-    assertThat(result)
-        .hasSize(2)
-        .extracting("title", "totalInvestingAmount", "presentInvestingAmount",
-            "investorCnt")
-        .containsExactly(tuple("title1", 10000L, 5000L, 1L),
-            tuple("title2", 20000L, 0L, 0L));
+        .extracting("title", "totalInvestingAmount", "presentInvestingAmount")
+        .containsExactly(tuple("title1", 10000L, 2000L),
+            tuple("title2", 20000L, 0L));
   }
 
   @Test
@@ -125,21 +101,17 @@ class InvestingProductRepositoryTest {
   }
 
   @Test
-  @DisplayName("요청금액 투자금 초과여부 조회-투자금액 없음")
+  @DisplayName("요청금액 투자금 초과여부 조회-미만")
   void test_isPossibleInvestment_noneStatus() {
-    var temp1 = productRepository.findById(1L);
-    var temp2 = statusRepository.findAll();
-
-    assertThat(productRepository.isExceedAmount(1, 10000)).isFalse();
+    assertThat(productRepository.isExceedAmount(1, 8000)).isFalse();
   }
 
   @Test
   @DisplayName("요청금액 투자금 초과여부 조회-총 투자금액이 투자가능 금액 초과")
   void test_isPossibleInvestment_exceedTotalAmount() {
-    statusRepository.save(InvestingStatus.builder()
+    productRepository.save(InvestingProduct.builder()
         .productId(1)
-        .userId(10)
-        .investAmount(10000)
+        .presentInvestingAmount(20000)
         .build());
 
     assertThat(productRepository.isExceedAmount(1, 10000)).isTrue();
@@ -148,10 +120,9 @@ class InvestingProductRepositoryTest {
   @Test
   @DisplayName("요청금액 투자금 초과여부 조회-총 투자금액은 투자가능 금액 미만이나, 추가 투자 시 초과")
   void test_isPossibleInvestment_exceedWhenAddInvestment() {
-    statusRepository.save(InvestingStatus.builder()
+    productRepository.save(InvestingProduct.builder()
         .productId(1)
-        .userId(10)
-        .investAmount(8000)
+        .presentInvestingAmount(1000)
         .build());
 
     assertThat(productRepository.isExceedAmount(1, 10000)).isTrue();
