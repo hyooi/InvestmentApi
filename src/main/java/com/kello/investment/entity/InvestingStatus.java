@@ -12,7 +12,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 
 @Entity
 @Getter
@@ -41,11 +40,9 @@ public class InvestingStatus {
   public static class Key implements Serializable {
 
     @Id
-    @NonNull
     private long productId;
 
     @Id
-    @NonNull
     private long userId;
   }
 
