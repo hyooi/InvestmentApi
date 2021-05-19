@@ -37,7 +37,6 @@ public class InvestingService {
     this.statusRepository = statusRepository;
   }
 
-  @Transactional(isolation = Isolation.READ_COMMITTED)
   public CommonResponse<List<InvestingProductDto>> getAllInvestmentProducts() {
     var allProduct = productRepository.findAllValidProduct(getLocalDateTime())
         .stream()
@@ -108,7 +107,6 @@ public class InvestingService {
     return LocalDateTime.now(ZoneId.of(timeZone));
   }
 
-  @Transactional(isolation = Isolation.READ_COMMITTED)
   public CommonResponse<List<MyInvestingProductDto>> getMyInvestmentProduct(long userId) {
     return new CommonResponse<List<MyInvestingProductDto>>()
         .of(ResultCodeEnum.NORMAL, timeZone)
