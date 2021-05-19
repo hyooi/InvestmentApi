@@ -11,13 +11,13 @@ import lombok.Setter;
 @RequiredArgsConstructor
 public class InvestingProductDto {
 
-  private final Long productId;
+  private final long productId;
   private final String title;
-  private final Long totalInvestingAmount;
+  private final long totalInvestingAmount;
   private final LocalDateTime startedAt;
   private final LocalDateTime finishedAt;
 
-  private final Long presentInvestingAmount;
-  private final Long investorCnt;
+  private final long presentInvestingAmount;
+  private final long investorCnt;
   private RecruitingStatusEnum recruitingStatus;
 }

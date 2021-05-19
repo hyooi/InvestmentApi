@@ -10,9 +10,9 @@ import lombok.Setter;
 @RequiredArgsConstructor
 public class MyInvestingProductDto {
 
-  private final Long productId;
+  private final long productId;
   private final String title;
-  private final Long totalInvestingAmount;
-  private final Long myInvestAmount;
+  private final long totalInvestingAmount;
+  private final long myInvestAmount;
   private final LocalDateTime investDate;
 }

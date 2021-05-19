@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Getter
 public enum ResultCodeEnum {
-  NORMAL("N00000");
+  NORMAL("S00000");
 
   private final String resultCode;
 }

@@ -74,7 +74,7 @@ public class InvestingService {
   }
 
   private void checkValidRequest(long productId, long amount) {
-    if (!isInvestingPeriod(productId)) {
+    if (!isValidPeriod(productId)) {
       throw new InvalidPeriodException();
     }
 
@@ -83,7 +83,7 @@ public class InvestingService {
     }
   }
 
-  private boolean isInvestingPeriod(long productId) {
+  private boolean isValidPeriod(long productId) {
     return !productRepository.getComparedTimes(productId, getLocalDateTime())
         .containsValue(false);
   }
@@ -96,7 +96,6 @@ public class InvestingService {
     return LocalDateTime.now(ZoneId.of(timeZone));
   }
 
-  //TODO 총 모집금액이 내가 투자한 상품이 현재 얼마나 모였는지를 확인하는건지? 아님 원래 총 모집금액인지?
   public CommonResponse<List<MyInvestingProductDto>> getMyInvestmentProduct(long userId) {
     return new CommonResponse<List<MyInvestingProductDto>>()
         .of(ResultCodeEnum.NORMAL, timeZone)
