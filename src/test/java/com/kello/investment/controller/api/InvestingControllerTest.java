@@ -12,6 +12,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.kello.investment.dto.CommonResponse;
 import com.kello.investment.dto.InvestingProductDto;
+import com.kello.investment.dto.InvestingStatusDto;
 import com.kello.investment.dto.MyInvestingProductDto;
 import com.kello.investment.entity.InvestingStatus;
 import com.kello.investment.enums.ResultCodeEnum;
@@ -82,16 +83,16 @@ class InvestingControllerTest {
     var userId = randomLongId();
     var amount = 10000;
 
-    var resultList = new CommonResponse<InvestingStatus>()
+    var result = new CommonResponse<InvestingStatusDto>()
         .of(ResultCodeEnum.NORMAL, "Asia/Seoul")
-        .result(InvestingStatus.builder()
+        .result(InvestingStatusDto.of(InvestingStatus.builder()
             .productId(productId)
             .userId(userId)
             .investAmount(amount)
-            .build())
+            .build()))
         .build();
 
-    given(service.invest(userId, productId, amount)).willReturn(resultList);
+    given(service.invest(userId, productId, amount)).willReturn(result);
 
     mockMvc.perform(post("/api/invest/" + productId + "/" + amount)
         .header("X-USER-ID", userId))

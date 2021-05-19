@@ -2,6 +2,7 @@ package com.kello.investment.service;
 
 import com.kello.investment.dto.CommonResponse;
 import com.kello.investment.dto.InvestingProductDto;
+import com.kello.investment.dto.InvestingStatusDto;
 import com.kello.investment.dto.MyInvestingProductDto;
 import com.kello.investment.dto.exception.InvalidPeriodException;
 import com.kello.investment.dto.exception.SoldOutException;
@@ -54,7 +55,7 @@ public class InvestingService {
   }
 
   @Transactional
-  public CommonResponse<InvestingStatus> invest(long userId, long productId, long amount) {
+  public CommonResponse<InvestingStatusDto> invest(long userId, long productId, long amount) {
     checkValidRequest(productId, amount);
 
     var investingStatus = statusRepository.findById(new Key(productId, userId));
@@ -62,14 +63,16 @@ public class InvestingService {
       amount += investingStatus.get().getInvestAmount();
     }
 
-    return new CommonResponse<InvestingStatus>()
+    var result = statusRepository.save(InvestingStatus.builder()
+        .productId(productId)
+        .userId(userId)
+        .investAmount(amount)
+        .investDate(getLocalDateTime())
+        .build());
+
+    return new CommonResponse<InvestingStatusDto>()
         .of(ResultCodeEnum.NORMAL, timeZone)
-        .result(statusRepository.save(InvestingStatus.builder()
-            .productId(productId)
-            .userId(userId)
-            .investAmount(amount)
-            .investDate(getLocalDateTime())
-            .build()))
+        .result(InvestingStatusDto.of(result))
         .build();
   }
 
