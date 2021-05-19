@@ -40,8 +40,8 @@ curl -X GET --location "http://localhost:6549/api/product" -H "X-USER-ID: 1"
 ### API
 
 - Spring Jpa를 이용해 구현하되, 복잡한 SQL은 JPQL을 이용
-- 결과값은 CommonResponse DTO로 래핑하여 리턴
-- 에러 발생 시에는 ErrorResponse DTO로 래핑하여 리턴
+- 결과값은 CommonResponse DTO로 래핑하여 리턴(결과코드, 결과값, 요청시간으로 구성)
+- 에러 발생 시에는 ErrorResponse DTO로 래핑하여 리턴(에러코드, 에러메시지, 요청시간으로 구성)
 - 모든 서비스는 하기 두 DB테이블을 조인하여 구현
 
 ### DB스키마
